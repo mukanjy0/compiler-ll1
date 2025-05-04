@@ -103,7 +103,7 @@ for s, rs in rules.items():
         j = len(rule) - 1
         while j >= 0:
             v = rule[j]
-            if not terminal[v]:
+            if not terminal[v] and s != v:
                 adj[ind[s]].append(ind[v])
             if eps not in first[v]: break
             j = j - 1
@@ -113,6 +113,11 @@ for vr in follow.keys():
 
 for u in range(N):
     adj[u] = unique(adj[u])
+
+vAdj = {}
+for u in range(N):
+    vAdj[var[u]]=[var[v] for v in adj[u]]
+print(f"Adj: {vAdj}\n")
 
 def toposort(G : list):
     n = len(G)
@@ -147,7 +152,7 @@ def kosaraju(G : list):
         if vis[u] > 0: return
         vis[u] = p
 
-        for v in G[u]:
+        for v in G2[u]:
             dfs(v, p)
 
     i = 1
@@ -209,7 +214,7 @@ varSccs = { k : [var[u] for u in v] for k, v in sccs.items()}
 print(f"\nSCCS: {varSccs}\n")
 
 print(f"FOLLOW: {follow}\n")
-
+ 
 # Convertir FIRST (listas) a sets para operaciones
 for u in first:
     first[u] = set(first[u])
@@ -298,3 +303,4 @@ def parse_string(input_str):
 e = "id = num"
 print("\nEntrada:", e)
 print("Resultado:", parse_string(e))
+ 
