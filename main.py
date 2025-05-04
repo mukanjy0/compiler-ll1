@@ -219,11 +219,10 @@ print(f"\nSCCS: {varSccs}\n")
 
 print(f"FOLLOW: {follow}\n")
  
-# Convertir FIRST (listas) a sets para operaciones
 for u in first:
     first[u] = set(first[u])
 
-# Construcción de la tabla predictiva
+# Building predictive table
 terminals = sorted([t for t, is_term in terminal.items() if is_term] + [end])
 table = {A: {a: None for a in terminals} for A in rules}
 for A, prods in rules.items():
@@ -239,6 +238,7 @@ for A, prods in rules.items():
             first_alpha |= set(follow.get(A, []))
         for a in first_alpha:
             table[A][a] = prod
+
 # Rule EXTRACT
 for A in table:
     for a in list(table[A].keys()):
