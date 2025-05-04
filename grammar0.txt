@@ -1,0 +1,17 @@
+P -> L
+L -> S L'
+L' -> ; L
+L' -> ε
+S -> id = E
+S -> print ( E )
+E -> T E'
+E' -> + E
+E' -> - E
+E' -> ε
+T -> F T'
+T' -> * T
+T' -> / T
+T' -> ε
+F -> id
+F -> num
+F -> ( E )
