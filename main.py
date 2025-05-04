@@ -40,9 +40,9 @@ def unique(ls : list) -> list:
 vars = unique(vars)
 
 # Debugging
-print(vars)
-print(rules)
-print(terminal)
+print(f"Vars:\n{vars}\n")
+print(f"Rules:\n{rules}\n")
+print(f"Terminal:\n{terminal}\n")
 
 first = {}
 
@@ -111,9 +111,9 @@ for s, rs in rules.items():
         j = len(rule) - 1
         while j >= 0:
             v = rule[j]
-            if eps not in first[v]: break
-            if v != eps:
+            if not terminal[v]:
                 adj[ind[s]].append(ind[v])
+            if eps not in first[v]: break
             j = j - 1
 
 for vr in follow.keys():
@@ -195,15 +195,16 @@ for u in range(1,ncc + 1):
 adj2 = [[] for _ in range(ncc + 1)]
 for u in range(N):
     for v in adj[u]:
-        print(u,v)
         if cc[u] == cc[v] or cc[v] in adj2[cc[u]]:
             continue
         adj2[cc[u]].append(cc[v])
 
 order = toposort(adj2)
-print("order: ", order)
-print("adj: ", adj)
-print("adj2: ", adj2)
+
+# print("order: ", order)
+# print("adj: ", adj)
+# print("adj2: ", adj2)
+
 for u in order:
     for v in adj2[u]:
         follow2[v].extend(follow2[u])
