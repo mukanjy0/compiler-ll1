@@ -1,4 +1,8 @@
 # Globals
+
+grammarFile = "grammar.txt"
+inputFile = "input.txt"
+
 eps = "ε"
 end = "$"
 
@@ -8,7 +12,7 @@ terminal = {}
 
 src = ""
 
-with open("grammar0.txt", "r") as f:
+with open(grammarFile, "r") as f:
     for line in f:
         line = line.strip().split()
 
@@ -235,72 +239,74 @@ for A, prods in rules.items():
             first_alpha |= set(follow.get(A, []))
         for a in first_alpha:
             table[A][a] = prod
-# Regla EXTRAER
+# Rule EXTRACT
 for A in table:
     for a in list(table[A].keys()):
         if table[A][a] is None and a in follow.get(A, []):
-            table[A][a] = "EXTRAER"
+            table[A][a] = "EXTRACT"
     if table[A].get(end) is None:
-        table[A][end] = "EXTRAER"
-# Regla EXPLORAR
+        table[A][end] = "EXTRACT"
+# Rule EXPLORE
 for A in table:
     for a in table[A]:
         if table[A][a] is None:
-            table[A][a] = "EXPLORAR"
+            table[A][a] = "EXPLORE"
 
-# Mostrar la tabla como tabla
-print("Predictive Parsing Table:")
-header = ['NT'] + terminals
-row_fmt = ''.join(["{:<12}" for _ in header])
-print(row_fmt.format(*header))
-for A in sorted(table.keys()):
-    row = [A]
-    for a in terminals:
-        entry = table[A][a]
-        if isinstance(entry, list):
-            cell = ' '.join(entry) or eps
-        else:
-            cell = entry
-        row.append(cell)
-    print(row_fmt.format(*row))
+# Write table to table.txt
+with open("table.txt", "w") as f:
+    print("Predictive Parsing Table:", file=f)
+    header = ['NT'] + terminals
+    row_fmt = ''.join(["{:<12}" for _ in header])
+    print(row_fmt.format(*header), file=f)
+    for A in sorted(table.keys()):
+        row = [A]
+        for a in terminals:
+            entry = table[A][a]
+            if isinstance(entry, list):
+                cell = ' '.join(entry) or eps
+            else:
+                cell = entry
+            row.append(cell)
+        print(row_fmt.format(*row), file=f)
 
-# Función de parseo con impresión de pasos
+# Step by step production
 def parse_string(input_str):
     input_syms = input_str.split() + [end]
     stack = [end, src]
     i = 0
-    print("\nParsing Steps:")
-    print(f"{'Stack':<30}{'Input':<30}Action")
-    while stack:
-        print(f"{str(stack):<30}{str(input_syms[i:]):<30}", end='')
-        top = stack.pop()
-        a = input_syms[i]
-        if terminal.get(top, False) or top == end:
-            if top == a:
-                print(f"Match '{a}'")
+    with open("production.txt", "w") as f:
+        print("\nParsing Steps:", file=f)
+        print(f"{'Stack':<40}{'Input':<100}Action", file=f)
+        while stack:
+            print(f"{str(stack):<40}{str(input_syms[i:]):<100}", end='', file=f)
+            top = stack.pop()
+            a = input_syms[i]
+            if terminal.get(top, False) or top == end:
+                if top == a:
+                    print(f"Match '{a}'", file=f)
+                    i += 1
+                    continue
+                else:
+                    print(f"Error: expected '{top}' but got '{a}'", file=f)
+                    return False
+            entry = table[top][a]
+            if entry == "EXTRACT":
+                print("Action: EXTRACT (pop nonterminal)", file=f)
+                continue
+            if entry == "EXPLORE":
+                print(f"Action: EXPLORE (skip terminal '{a}' )", file=f)
                 i += 1
                 continue
-            else:
-                print(f"Error: expected '{top}' but got '{a}'")
-                return False
-        entry = table[top][a]
-        if entry == "EXTRAER":
-            print("Action: EXTRAER (pop nonterminal)")
-            continue
-        if entry == "EXPLORAR":
-            print(f"Action: EXPLORAR (skip terminal '{a}' )")
-            i += 1
-            continue
-        prod_str = ' '.join(entry)
-        print(f"Output: {top} -> {prod_str}")
-        for sym in reversed(entry):
-            if sym != eps:
-                stack.append(sym)
-    print("Success: input accepted")
+            prod_str = ' '.join(entry)
+            print(f"Output: {top} -> {prod_str}", file=f)
+            for sym in reversed(entry):
+                if sym != eps:
+                    stack.append(sym)
+        print("Success: ✅ Input accepted", file=f)
+
     return True
 
-with open("text0.txt", "r") as f:
+with open(inputFile, "r") as f:
     e = f.readline().strip()
-    print("\nEntrada:", e)
-    print("Resultado:", parse_string(e))
- 
+    print("\nInput:", e)
+    print("Result:", parse_string(e))

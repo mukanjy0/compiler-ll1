@@ -1,0 +1,11 @@
+Predictive Parsing Table:
+NT          $           (           )           *           +           -           /           ;           =           id          num         print       ε           
+E           EXTRACT     T Ep        EXTRACT     EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXTRACT     EXPLORE     T Ep        T Ep        EXPLORE     EXPLORE     
+Ep          ε           EXPLORE     ε           EXPLORE     + E         - E         EXPLORE     ε           EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     
+F           EXTRACT     ( E )       EXTRACT     EXTRACT     EXTRACT     EXTRACT     EXTRACT     EXTRACT     EXPLORE     id          num         EXPLORE     EXPLORE     
+L           EXTRACT     EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     S Lp        EXPLORE     S Lp        EXPLORE     
+Lp          ε           EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     ; L         EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     
+P           EXTRACT     EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     L           EXPLORE     L           EXPLORE     
+S           EXTRACT     EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXTRACT     EXPLORE     id = E      EXPLORE     print ( E ) EXPLORE     
+T           EXTRACT     F Tp        EXTRACT     EXPLORE     EXTRACT     EXTRACT     EXPLORE     EXTRACT     EXPLORE     F Tp        F Tp        EXPLORE     EXPLORE     
+Tp          ε           EXPLORE     ε           * T         ε           ε           / T         ε           EXPLORE     EXPLORE     EXPLORE     EXPLORE     EXPLORE     

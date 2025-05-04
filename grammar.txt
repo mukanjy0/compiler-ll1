@@ -1,5 +1,17 @@
-S -> A B B C
-A -> a
-B -> b 
-B -> c
-C -> d
+P -> L
+L -> S Lp
+Lp -> ; L
+Lp -> ε
+S -> id = E
+S -> print ( E )
+E -> T Ep
+Ep -> + E
+Ep -> - E
+Ep -> ε
+T -> F Tp
+Tp -> * T
+Tp -> / T
+Tp -> ε
+F -> id
+F -> num
+F -> ( E )

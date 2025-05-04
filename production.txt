@@ -1,0 +1,44 @@
+
+Parsing Steps:
+Stack                                   Input                                                                                               Action
+['$', 'P']                              ['id', '=', 'num', '+', 'num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                       Output: P -> L
+['$', 'L']                              ['id', '=', 'num', '+', 'num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                       Output: L -> S Lp
+['$', 'Lp', 'S']                        ['id', '=', 'num', '+', 'num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                       Output: S -> id = E
+['$', 'Lp', 'E', '=', 'id']             ['id', '=', 'num', '+', 'num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                       Match 'id'
+['$', 'Lp', 'E', '=']                   ['=', 'num', '+', 'num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                             Match '='
+['$', 'Lp', 'E']                        ['num', '+', 'num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                                  Output: E -> T Ep
+['$', 'Lp', 'Ep', 'T']                  ['num', '+', 'num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                                  Output: T -> F Tp
+['$', 'Lp', 'Ep', 'Tp', 'F']            ['num', '+', 'num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                                  Output: F -> num
+['$', 'Lp', 'Ep', 'Tp', 'num']          ['num', '+', 'num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                                  Match 'num'
+['$', 'Lp', 'Ep', 'Tp']                 ['+', 'num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                                         Output: Tp -> ε
+['$', 'Lp', 'Ep']                       ['+', 'num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                                         Output: Ep -> + E
+['$', 'Lp', 'E', '+']                   ['+', 'num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                                         Match '+'
+['$', 'Lp', 'E']                        ['num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                                              Output: E -> T Ep
+['$', 'Lp', 'Ep', 'T']                  ['num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                                              Output: T -> F Tp
+['$', 'Lp', 'Ep', 'Tp', 'F']            ['num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                                              Output: F -> num
+['$', 'Lp', 'Ep', 'Tp', 'num']          ['num', ';', 'print', '(', 'id', '+', 'num', ')', '$']                                              Match 'num'
+['$', 'Lp', 'Ep', 'Tp']                 [';', 'print', '(', 'id', '+', 'num', ')', '$']                                                     Output: Tp -> ε
+['$', 'Lp', 'Ep']                       [';', 'print', '(', 'id', '+', 'num', ')', '$']                                                     Output: Ep -> ε
+['$', 'Lp']                             [';', 'print', '(', 'id', '+', 'num', ')', '$']                                                     Output: Lp -> ; L
+['$', 'L', ';']                         [';', 'print', '(', 'id', '+', 'num', ')', '$']                                                     Match ';'
+['$', 'L']                              ['print', '(', 'id', '+', 'num', ')', '$']                                                          Output: L -> S Lp
+['$', 'Lp', 'S']                        ['print', '(', 'id', '+', 'num', ')', '$']                                                          Output: S -> print ( E )
+['$', 'Lp', ')', 'E', '(', 'print']     ['print', '(', 'id', '+', 'num', ')', '$']                                                          Match 'print'
+['$', 'Lp', ')', 'E', '(']              ['(', 'id', '+', 'num', ')', '$']                                                                   Match '('
+['$', 'Lp', ')', 'E']                   ['id', '+', 'num', ')', '$']                                                                        Output: E -> T Ep
+['$', 'Lp', ')', 'Ep', 'T']             ['id', '+', 'num', ')', '$']                                                                        Output: T -> F Tp
+['$', 'Lp', ')', 'Ep', 'Tp', 'F']       ['id', '+', 'num', ')', '$']                                                                        Output: F -> id
+['$', 'Lp', ')', 'Ep', 'Tp', 'id']      ['id', '+', 'num', ')', '$']                                                                        Match 'id'
+['$', 'Lp', ')', 'Ep', 'Tp']            ['+', 'num', ')', '$']                                                                              Output: Tp -> ε
+['$', 'Lp', ')', 'Ep']                  ['+', 'num', ')', '$']                                                                              Output: Ep -> + E
+['$', 'Lp', ')', 'E', '+']              ['+', 'num', ')', '$']                                                                              Match '+'
+['$', 'Lp', ')', 'E']                   ['num', ')', '$']                                                                                   Output: E -> T Ep
+['$', 'Lp', ')', 'Ep', 'T']             ['num', ')', '$']                                                                                   Output: T -> F Tp
+['$', 'Lp', ')', 'Ep', 'Tp', 'F']       ['num', ')', '$']                                                                                   Output: F -> num
+['$', 'Lp', ')', 'Ep', 'Tp', 'num']     ['num', ')', '$']                                                                                   Match 'num'
+['$', 'Lp', ')', 'Ep', 'Tp']            [')', '$']                                                                                          Output: Tp -> ε
+['$', 'Lp', ')', 'Ep']                  [')', '$']                                                                                          Output: Ep -> ε
+['$', 'Lp', ')']                        [')', '$']                                                                                          Match ')'
+['$', 'Lp']                             ['$']                                                                                               Output: Lp -> ε
+['$']                                   ['$']                                                                                               Match '$'
+Success: ✅ Input accepted
