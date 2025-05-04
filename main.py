@@ -39,11 +39,6 @@ def unique(ls : list) -> list:
 
 vars = unique(vars)
 
-# Debugging
-print(f"Vars:\n{vars}\n")
-print(f"Rules:\n{rules}\n")
-print(f"Terminal:\n{terminal}\n")
-
 first = {}
 
 N = 0
@@ -75,9 +70,6 @@ for i in range(n):
                 first[u].append(eps)
 
             first[u] = unique(first[u])
-
-# Debugging
-print("FIRST:", first)
 
 follow = {}
 
@@ -172,10 +164,6 @@ def kosaraju(G : list):
 
 sccs = kosaraju(adj)
 
-# Debugging
-varSccs = { k : [var[u] for u in v] for k, v in sccs.items()}
-print(f"\nSCCS: {varSccs}\n")
-
 cc = [0] * N
 ncc = 1
 for c, ls in sccs.items():
@@ -201,10 +189,6 @@ for u in range(N):
 
 order = toposort(adj2)
 
-# print("order: ", order)
-# print("adj: ", adj)
-# print("adj2: ", adj2)
-
 for u in order:
     for v in adj2[u]:
         follow2[v].extend(follow2[u])
@@ -215,7 +199,16 @@ for u in range(1,ncc + 1):
         follow[var[v]] = follow2[u]
 
 # Debugging
-print("FOLLOW:", follow)
+print(f"Vars:\n{vars}\n")
+print(f"Rules:\n{rules}\n")
+print(f"Terminal:\n{terminal}\n")
+
+print(f"FIRST: {first}\n")
+
+varSccs = { k : [var[u] for u in v] for k, v in sccs.items()}
+print(f"\nSCCS: {varSccs}\n")
+
+print(f"FOLLOW: {follow}\n")
 
 # Convertir FIRST (listas) a sets para operaciones
 for u in first:
@@ -305,4 +298,3 @@ def parse_string(input_str):
 e = "id = num"
 print("\nEntrada:", e)
 print("Resultado:", parse_string(e))
- 
