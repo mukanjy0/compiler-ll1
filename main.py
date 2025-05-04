@@ -299,8 +299,8 @@ def parse_string(input_str):
     print("Success: input accepted")
     return True
 
-# Ejemplo sencillo
-e = "id = num"
-print("\nEntrada:", e)
-print("Resultado:", parse_string(e))
+with open("text0.txt", "r") as f:
+    e = f.readline().strip()
+    print("\nEntrada:", e)
+    print("Resultado:", parse_string(e))
  

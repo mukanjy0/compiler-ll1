@@ -1,0 +1,1 @@
+id = num + num ; print ( id + num )
